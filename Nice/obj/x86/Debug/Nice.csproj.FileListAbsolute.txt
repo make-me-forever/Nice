@@ -46,3 +46,15 @@ E:\Code\windows\Game\Nice\bin\Debug\Nice.exe
 E:\Code\windows\Game\Nice\bin\Debug\Nice.pdb
 E:\Code\windows\Game\Nice\obj\x86\Debug\Nice.exe
 E:\Code\windows\Game\Nice\obj\x86\Debug\Nice.pdb
+E:\Code\github\Nice_KunYi\Nice\Nice\Nice\bin\Debug\Nice.exe.config
+E:\Code\github\Nice_KunYi\Nice\Nice\Nice\bin\Debug\Nice.exe
+E:\Code\github\Nice_KunYi\Nice\Nice\Nice\bin\Debug\Nice.pdb
+E:\Code\github\Nice_KunYi\Nice\Nice\Nice\obj\x86\Debug\Nice.csproj.AssemblyReference.cache
+E:\Code\github\Nice_KunYi\Nice\Nice\Nice\obj\x86\Debug\Nice.csproj.SuggestedBindingRedirects.cache
+E:\Code\github\Nice_KunYi\Nice\Nice\Nice\obj\x86\Debug\Interop.IWshRuntimeLibrary.dll
+E:\Code\github\Nice_KunYi\Nice\Nice\Nice\obj\x86\Debug\Nice.csproj.ResolveComReference.cache
+E:\Code\github\Nice_KunYi\Nice\Nice\Nice\obj\x86\Debug\Nice.MainPage.resources
+E:\Code\github\Nice_KunYi\Nice\Nice\Nice\obj\x86\Debug\Nice.csproj.GenerateResource.cache
+E:\Code\github\Nice_KunYi\Nice\Nice\Nice\obj\x86\Debug\Nice.csproj.CoreCompileInputs.cache
+E:\Code\github\Nice_KunYi\Nice\Nice\Nice\obj\x86\Debug\Nice.exe
+E:\Code\github\Nice_KunYi\Nice\Nice\Nice\obj\x86\Debug\Nice.pdb
