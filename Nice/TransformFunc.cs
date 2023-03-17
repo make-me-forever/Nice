@@ -16,8 +16,10 @@ namespace Nice
         File g_f = new File();
         string g_dirPath = null;
         string g_fileName = null;
+        string g_backupFilePath = null;
         string g_signBypass = @"CONFIGDATA[].WORDS.";
         //string g_signVio4 = @"REG=";
+        int g_totalLineNum = 0;
         /***************************************************************/
 
         enum cfg_type {
@@ -44,50 +46,57 @@ namespace Nice
                 g_f.Log("[TransformFuncEntry] transform err");
                 return;
             }
+            ReleaseGlobleVariable();
         }
 
         private bool CheckPath(string srcFilePath)
         {
-            if (srcFilePath == null || srcFilePath == "")
-            {
+            if (srcFilePath == null || srcFilePath == "") {
                 g_f.Err("[CheckPath] err:文件路径检测fail");
                 MessageBox.Show("err:文件路径检测fail", "CheckPath");
                 return false;
             }
             int totalSize = Encoding.Default.GetByteCount("srcFilePath");
-            int fileNameIndex = srcFilePath.LastIndexOf(@"\") + 1;
-            if (fileNameIndex <= 0) {
-                g_dirPath = g_f.g_currentPath + @"\";
+            if (srcFilePath.LastIndexOf(@"\") <= 0) {
+                g_dirPath = g_f.g_currentPath;
                 g_fileName = srcFilePath;
                 return true;
             } else {
-                g_dirPath = g_f.CutStr(srcFilePath, 1, fileNameIndex);
+                g_dirPath = System.IO.Path.GetDirectoryName(srcFilePath);
                 g_fileName = System.IO.Path.GetFileName(srcFilePath);
                 return true;
             }
         }
 
-        private void TransformToVio4()
+        private void ReleaseGlobleVariable()
+        {
+            g_dirPath = null;
+            g_fileName = null;
+            g_backupFilePath = null;
+            g_totalLineNum = 0;
+        }
+
+        private void CreatBackupFile()
         {
             String format = " yyyy-MM-dd_hhmmssffff";
             DateTime date = DateTime.Now;
             string time = date.ToString(format, DateTimeFormatInfo.InvariantInfo);
-            string filePath = g_dirPath + System.IO.Path.GetFileNameWithoutExtension(g_fileName) + time + ".ini";
-            if (!System.IO.File.Exists(filePath)) {
-                System.IO.File.Copy(g_dirPath + g_fileName, filePath, true);
+            g_backupFilePath = g_dirPath + @"\" + System.IO.Path.GetFileNameWithoutExtension(g_fileName) + time + ".ini";
+            if (!System.IO.File.Exists(g_backupFilePath)) {
+                System.IO.File.Copy(g_dirPath + @"\" + g_fileName, g_backupFilePath, true);
             } else {
-                //g_f.Log("err:请删除冗余同名文件" + filePath + @"[TransformToVio4]");
-                System.IO.File.Copy(g_dirPath + g_fileName, filePath, true);
+                System.IO.File.Copy(g_dirPath + @"\" + g_fileName, g_backupFilePath, true);
             }
+        }
 
-            int totalLineNum = g_f.getMaxLine(g_dirPath + g_fileName);
-            g_f.Clear(filePath);
-
-            g_f.Log("totalLineNum=" + totalLineNum.ToString());
+        private void TransformToVio4()
+        {
+            g_f.Clear(g_backupFilePath);
+            g_f.Log("g_totalLineNum=" + g_totalLineNum.ToString());
             string delayValue = null;
             bool dataDoneFlag = false;
-            for (int i = 1; i <= totalLineNum; i++) {
-                string currLineStr = g_f.getLine(g_dirPath + g_fileName, i).ToUpper();
+            for (int i = 1; i <= g_totalLineNum; i++) {
+                string currLineStr = g_f.getLine(g_dirPath + @"\" + g_fileName, i).ToUpper();
                 currLineStr = currLineStr.Replace(" ", ""); // move Space
                 currLineStr = currLineStr.Replace("\t", ""); // move Tab
                 /* 1.---- handle the comment // ---------------------- */
@@ -139,20 +148,20 @@ namespace Nice
                     switch (cfgNameStr) {
                         case "SLAVEID":
                             cfg.slaveId = cfgDataStr;
-                            System.IO.File.AppendAllText(filePath, @"REG=" + cfgDataStr.ToLower() + @",");
+                            System.IO.File.AppendAllText(g_backupFilePath, @"REG=" + cfgDataStr.ToLower() + @",");
                             //g_f.Log(@"REG=" + cfgDataStr + @"," + @"\\\\\" + filePath);
                             break;
                         case "REG":
                             cfg.reg = cfgDataStr;
-                            System.IO.File.AppendAllText(filePath, cfgDataStr.ToLower() + @",");
+                            System.IO.File.AppendAllText(g_backupFilePath, cfgDataStr.ToLower() + @",");
                             //g_f.Log(cfgDataStr + @"," + @"\\\\\" + filePath);
                             break;
                         case "DATA":
                             cfg.data = cfgDataStr;
-                            System.IO.File.AppendAllText(filePath, cfgDataStr.ToLower() + "\r\n");
+                            System.IO.File.AppendAllText(g_backupFilePath, cfgDataStr.ToLower() + "\r\n");
                             dataDoneFlag = true;
                             if (delayValue != null) {
-                                System.IO.File.AppendAllText(filePath, @"DELAY=" + delayValue.ToLower() + "\r\n");
+                                System.IO.File.AppendAllText(g_backupFilePath, @"DELAY=" + delayValue.ToLower() + "\r\n");
                                 delayValue = null;
                                 dataDoneFlag = false;
                             }
@@ -165,7 +174,7 @@ namespace Nice
                             cfg.delay = cfgDataStr;
                             delayValue = cfgDataStr;
                             if(dataDoneFlag) {
-                                System.IO.File.AppendAllText(filePath, @"DELAY=" + delayValue.ToLower() + "\r\n");
+                                System.IO.File.AppendAllText(g_backupFilePath, @"DELAY=" + delayValue.ToLower() + "\r\n");
                                 delayValue = null;
                                 dataDoneFlag = false;
                             }
@@ -176,36 +185,21 @@ namespace Nice
                     }
                 }
             }
-            g_f.RemoveSpecifyLine(filePath, g_f.getMaxLine(filePath)); // remove last line —— \r\n
-            g_f.RenameFileName(filePath);
+            g_f.RemoveSpecifyLine(g_backupFilePath, g_f.getMaxLine(g_backupFilePath)); // remove last line —— \r\n
+            g_f.RenameFileName(g_backupFilePath);
         }
 
         private void TransformToBypass()
         {
-            String format = " yyyy-MM-dd_hhmmssffff";
-            DateTime date = DateTime.Now;
-            string time = date.ToString(format, DateTimeFormatInfo.InvariantInfo);
-            string filePath = g_dirPath + System.IO.Path.GetFileNameWithoutExtension(g_fileName) + time + ".ini";
-            if (!System.IO.File.Exists(filePath)) {
-                System.IO.File.Copy(g_dirPath + g_fileName, filePath, true);
-            } else {
-                //g_f.Log("err:请删除冗余同名文件" + filePath + @"[TransformToBypass]");
-                System.IO.File.Copy(g_dirPath + g_fileName, filePath, true);
-            }
-            //g_f.Replace(filePath, filePath, "\r\n\r\n", "\r\n");
-            //g_f.Replace(filePath, filePath, "\r\n\r\n", "\r\n");
-            int totalLineNum = g_f.getMaxLine(g_dirPath + g_fileName);
-            g_f.Clear(filePath);
-
-            g_f.getMaxLine(g_dirPath + g_fileName);
-            g_f.Log("[TransformToBypass] totalLineNum=" + totalLineNum.ToString());
+            g_f.Clear(g_backupFilePath);
+            g_f.Log("[TransformToBypass] g_totalLineNum=" + g_totalLineNum.ToString());
             int cfgNum = 0; // 第cfgNum条有效配置
             int flagOdd = 0;
             int flagEven = 0;
             bool isUpdateDelay = false;
             CFG cfg = new CFG() { slaveId = null, reg = null, data = null, dataLen = null, delay = null };
-            for (int i = 1; i <= totalLineNum; i++) {
-                string currLineStr = g_f.getLine(g_dirPath + g_fileName, i).ToUpper();
+            for (int i = 1; i <= g_totalLineNum; i++) {
+                string currLineStr = g_f.getLine(g_dirPath + @"\" + g_fileName, i).ToUpper();
                 currLineStr = currLineStr.Replace(" ", ""); // move Space
                 currLineStr = currLineStr.Replace("\t", ""); // move Tab
                 if(currLineStr == "") {
@@ -226,13 +220,9 @@ namespace Nice
                 }
                 /* 2.---- handle the comment # ---------- ----------- */
                 if (currLineStr.Contains(@"#")) {
-                    int beginPosition = currLineStr.IndexOf(@"#");
-                    g_f.Log("[TransformToBypass] 第" + i.ToString() + "行:\t" + "deginPosition=" + beginPosition + "\tcurrLineStr=" + currLineStr);
-                    if (g_f.CutStr(currLineStr, 1, 1) == @"#") {
-                        g_f.Log("[TransformToBypass] 第" + i.ToString() + "行:\t" + "deginPosition=" + beginPosition + "\tcurrLineStr=" + currLineStr);
-                        currLineStr = g_f.CutStr(currLineStr, 1, beginPosition - 1);
-                    }
-
+                    int beginPosition = currLineStr.IndexOf(@"#") + 1;
+                    g_f.Log("[TransformToBypass] 第" + i.ToString() + "行:\t" + "beginPosition=" + beginPosition + "\tcurrLineStr=" + currLineStr);
+                    currLineStr = g_f.CutStr(currLineStr, 1, beginPosition - 1);
                 }
                 /* 3.---- handle no the comment --------------------- */
                 {
@@ -264,6 +254,10 @@ namespace Nice
                         g_f.Log("34");
                         cfg.reg = g_f.CutStr(currLineStr, cammaOnePosition + 1, cammaTwoPosition - cammaOnePosition - 1).ToLower();
                         cfg.data = currLineStr.Remove(0, cammaTwoPosition).ToLower();
+                        int endPosition = cfg.data.IndexOf(@",") + 1;
+                        if (endPosition > 0) {
+                            cfg.data = g_f.CutStr(cfg.data, 1, endPosition - 1);
+                        }
                         if(cfg.data.Contains(@"0x")) {
                             cfg.dataLen = ((cfg.data.Length - 1) / 2).ToString();
                         } else {
@@ -312,27 +306,27 @@ namespace Nice
                                 cfgNum--;
                             }
                             int delayLine = cfgNum * 6 + 1;
-                            string crruCfgStr = g_f.getLine(filePath, delayLine);
+                            string crruCfgStr = g_f.getLine(g_backupFilePath, delayLine);
                             if(cfgNum == 0) {
-                                g_f.Clear(filePath);
+                                g_f.Clear(g_backupFilePath);
                                 g_f.Log("43");
                             } else {
                                 g_f.Log("44");
                                 for (int num = 0; num <= 5; num++) {
                                     g_f.Log("第" + (delayLine + 4 - num).ToString() + "行：" + "[" + cfgNum + "]" + crruCfgStr);
-                                    g_f.RemoveSpecifyLine(filePath, delayLine + 4 - num);
+                                    g_f.RemoveSpecifyLine(g_backupFilePath, delayLine + 4 - num);
                                 }
                             }
                             flagEven = 0;
                             isUpdateDelay = true;
                             g_f.Log("第" + delayLine.ToString() + "行：" + "[" + cfgNum + "]" + crruCfgStr);
                         }
-                        System.IO.File.AppendAllText(filePath, @"    configData[" + cfgNum.ToString() + @"].words.delay = " + cfg.delay + ";\r\n");
-                        System.IO.File.AppendAllText(filePath, @"    configData[" + cfgNum.ToString() + @"].words.slaveId = " + cfg.slaveId + ";\r\n");
-                        System.IO.File.AppendAllText(filePath, @"    configData[" + cfgNum.ToString() + @"].words.reg = " + cfg.reg + ";\r\n");
-                        System.IO.File.AppendAllText(filePath, @"    configData[" + cfgNum.ToString() + @"].words.data = " + cfg.data + ";\r\n");
-                        System.IO.File.AppendAllText(filePath, @"    configData[" + cfgNum.ToString() + @"].words.dataLen = " + cfg.dataLen + ";\r\n");
-                        System.IO.File.AppendAllText(filePath, "\r\n");
+                        System.IO.File.AppendAllText(g_backupFilePath, @"    configData[" + cfgNum.ToString() + @"].words.delay = " + cfg.delay + ";\r\n");
+                        System.IO.File.AppendAllText(g_backupFilePath, @"    configData[" + cfgNum.ToString() + @"].words.slaveId = " + cfg.slaveId + ";\r\n");
+                        System.IO.File.AppendAllText(g_backupFilePath, @"    configData[" + cfgNum.ToString() + @"].words.reg = " + cfg.reg + ";\r\n");
+                        System.IO.File.AppendAllText(g_backupFilePath, @"    configData[" + cfgNum.ToString() + @"].words.data = " + cfg.data + ";\r\n");
+                        System.IO.File.AppendAllText(g_backupFilePath, @"    configData[" + cfgNum.ToString() + @"].words.dataLen = " + cfg.dataLen + ";\r\n");
+                        System.IO.File.AppendAllText(g_backupFilePath, "\r\n");
                         if(flagEven != 0) {
                             cfg = new CFG() { slaveId = null, reg = null, data = null, dataLen = null, delay = null };
                         }
@@ -343,17 +337,20 @@ namespace Nice
                     
                 }
             }
-            g_f.RemoveSpecifyLine(filePath, g_f.getMaxLine(filePath)); // remove last line —— \r\n
-            g_f.RemoveSpecifyLine(filePath, g_f.getMaxLine(filePath)); // remove last line —— \r\n
-            g_f.RenameFileName(filePath);
+            g_f.RemoveSpecifyLine(g_backupFilePath, g_f.getMaxLine(g_backupFilePath)); // remove last line —— \r\n
+            g_f.RemoveSpecifyLine(g_backupFilePath, g_f.getMaxLine(g_backupFilePath)); // remove last line —— \r\n
+            g_f.RenameFileName(g_backupFilePath);
         }
 
         private bool TransformStart()
         {
+            g_totalLineNum = g_f.getMaxLine(g_dirPath + @"\" + g_fileName);
             int cfgType = PickOutTransformType();
             if (cfgType == (int)cfg_type.VIO4) {
+                CreatBackupFile();
                 TransformToBypass();
             } else if(cfgType == (int)cfg_type.BYPASS) {
+                CreatBackupFile();
                 TransformToVio4();
             } else {
                 g_f.Log("[TransformStart] Error：文件内容配置有误，type=" + cfgType);
@@ -366,14 +363,13 @@ namespace Nice
         public int PickOutTransformType()
         {
             int cfgType = (int)cfg_type.MAX_TYPE;
-            int totalLineNum = 0;
             if (g_dirPath == null) {
-                g_dirPath = @".\";
-                totalLineNum = g_f.getMaxLine(@".\" + g_fileName);
+                g_dirPath = @"";
+                g_totalLineNum = g_f.getMaxLine(@".\" + g_fileName);
             } else {
-                totalLineNum = g_f.getMaxLine(g_dirPath + g_fileName);
+                g_totalLineNum = g_f.getMaxLine(g_dirPath + @"\" + g_fileName);
             }
-            if (totalLineNum <= 0) {
+            if (g_totalLineNum <= 0) {
                 g_f.Log("[PickOutTransformType] err:文件内容获取fail path:" + g_dirPath);
                 MessageBox.Show("err:文件内容获取fail", "PickOutTransformType");
                 return cfgType;
@@ -381,8 +377,8 @@ namespace Nice
 
             bool isTypeVio4 = true;
             bool isTypeBypass = true;
-            for (int i = 1; i <= totalLineNum; i++) {
-                string currLineStr = g_f.getLine(g_dirPath + g_fileName, i);
+            for (int i = 1; i <= g_totalLineNum; i++) {
+                string currLineStr = g_f.getLine(g_dirPath + @"\" + g_fileName, i);
                 char[] charsToTrim = { ' ', '\t' };
                 currLineStr = currLineStr.Trim(charsToTrim).ToUpper(); // remove Space、Tab
                 //g_f.Log("行号:" + i.ToString() + "\t str:" + currLineStr);
