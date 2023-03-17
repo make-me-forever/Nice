@@ -7,7 +7,6 @@ using System.Diagnostics.SymbolStore;
 using System.Globalization;
 using System.Data;
 using System.Windows.Markup;
-using static Nice.TransformFunc;
 
 namespace Nice
 {
@@ -51,7 +50,7 @@ namespace Nice
         {
             if (srcFilePath == null || srcFilePath == "")
             {
-                g_f.Log("[CheckPath] err:文件路径检测fail");
+                g_f.Err("[CheckPath] err:文件路径检测fail");
                 MessageBox.Show("err:文件路径检测fail", "CheckPath");
                 return false;
             }
@@ -227,9 +226,13 @@ namespace Nice
                 }
                 /* 2.---- handle the comment # ---------- ----------- */
                 if (currLineStr.Contains(@"#")) {
-                    int beginPosition = currLineStr.IndexOf(@"#") + 1;
-                    g_f.Log("[TransformToBypass] 第" + i.ToString() + "行:\t" + "beginPosition=" + beginPosition + "\tcurrLineStr=" + currLineStr);
-                    currLineStr = g_f.CutStr(currLineStr, 1, beginPosition - 1);
+                    int beginPosition = currLineStr.IndexOf(@"#");
+                    g_f.Log("[TransformToBypass] 第" + i.ToString() + "行:\t" + "deginPosition=" + beginPosition + "\tcurrLineStr=" + currLineStr);
+                    if (g_f.CutStr(currLineStr, 1, 1) == @"#") {
+                        g_f.Log("[TransformToBypass] 第" + i.ToString() + "行:\t" + "deginPosition=" + beginPosition + "\tcurrLineStr=" + currLineStr);
+                        currLineStr = g_f.CutStr(currLineStr, 1, beginPosition - 1);
+                    }
+
                 }
                 /* 3.---- handle no the comment --------------------- */
                 {
@@ -261,11 +264,7 @@ namespace Nice
                         g_f.Log("34");
                         cfg.reg = g_f.CutStr(currLineStr, cammaOnePosition + 1, cammaTwoPosition - cammaOnePosition - 1).ToLower();
                         cfg.data = currLineStr.Remove(0, cammaTwoPosition).ToLower();
-                        int endPosition = cfg.data.IndexOf(@",") + 1;
-                        if (endPosition > 0) {
-                            cfg.data = g_f.CutStr(cfg.data, 1, endPosition - 1);
-                        }
-                        if (cfg.data.Contains(@"0x")) {
+                        if(cfg.data.Contains(@"0x")) {
                             cfg.dataLen = ((cfg.data.Length - 1) / 2).ToString();
                         } else {
                             cfg.dataLen = ((cfg.data.Length + 1) / 2).ToString();

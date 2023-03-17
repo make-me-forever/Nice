@@ -71,34 +71,32 @@ namespace Nice
             if(!g_f.IsSupportLib()) {
                 return;
             }
-            if (!g_f.IsSupportLog()) {
-                return;
-            }
+
             g_f.g_dairyPath = g_f.g_currentPath + @"\Libcore\log";
-            if (!System.IO.Directory.Exists(g_f.g_dairyPath))
-            {
+            if (!System.IO.Directory.Exists(g_f.g_dairyPath)) {
                 Show("Log文件夹不存在，即将创建Log文件夹。\r\n新建：" + g_f.g_dairyPath, "InitStr");
                 System.IO.Directory.CreateDirectory(g_f.g_dairyPath);
             }
 
-            g_f.g_errorLogPath = g_f.g_dairyPath + @"\error.log";
-            if (!System.IO.File.Exists(g_f.g_errorLogPath))
-            {
-                // Show("error.log文件不存在，即将创建error.log文件", "InitStr");
-                System.IO.File.Create(g_f.g_errorLogPath).Close();
-                g_f.Log(g_f.g_errorLogPath, "error.log文件不存在，已创建error.log文件");
+            if (g_f.IsSupportErr()) {
+                g_f.g_errorLogPath = g_f.g_dairyPath + @"\error.log";
+                if (!System.IO.File.Exists(g_f.g_errorLogPath)) {
+                    // Show("error.log文件不存在，即将创建error.log文件", "InitStr");
+                    System.IO.File.Create(g_f.g_errorLogPath).Close();
+                    g_f.Log(g_f.g_errorLogPath, "error.log文件不存在，已创建error.log文件");
+                }
             }
 
-            g_f.g_logPath = g_f.g_dairyPath + @"\note.log";
-            if (!System.IO.File.Exists(g_f.g_logPath))
-            {
-                // Show("note.log文件不存在，即将创建note.log文件", "InitStr");
-                System.IO.File.Create(g_f.g_logPath).Close();
-                g_f.Log(g_f.g_errorLogPath, "note.log文件不存在，已创建note.log文件");
+            if (g_f.IsSupportLog()) {
+                g_f.g_logPath = g_f.g_dairyPath + @"\note.log";
+                if (!System.IO.File.Exists(g_f.g_logPath)) {
+                    // Show("note.log文件不存在，即将创建note.log文件", "InitStr");
+                    System.IO.File.Create(g_f.g_logPath).Close();
+                    g_f.Log(g_f.g_errorLogPath, "note.log文件不存在，已创建note.log文件");
+                }
             }
             g_f.FileCompression(g_f.g_logPath, g_f.g_dairyPath);
-            if (System.IO.Directory.Exists(g_f.g_currentPath + g_f.g_libCoreStr))
-            {
+            if (System.IO.Directory.Exists(g_f.g_currentPath + g_f.g_libCoreStr)) {
                 // 设置隐藏文件夹
                 System.IO.File.SetAttributes(g_f.g_currentPath + g_f.g_libCoreStr, FileAttributes.Hidden);
             }
@@ -109,7 +107,7 @@ namespace Nice
             PathEditArea.Text = g_tipsPathEditArea; // 初始化主页路径输入提示语
             PathEditArea.ForeColor = System.Drawing.Color.FromArgb(220, 220, 220);  // 提示语灰化
             this.AllowDrop = true;
-            if (!g_f.IsSupportLog()) {
+            if (!g_f.IsSupportLib()) {
                 LogButton.Text = "文件";
             }
         }

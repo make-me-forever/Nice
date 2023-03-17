@@ -3,6 +3,7 @@
 
 //#define LIB
 //#define LOG
+//#define ERR
 
 
 /***************************************************************/
@@ -126,7 +127,7 @@ namespace Nice
                 //Log("end=" + end.ToString());
                 return lostStr;
             } else {
-                Log("[CutStr] Failing to cutting str.\tbegin=" + begin.ToString() + "\tend=" + end.ToString() + "\tstr.Length=" + str.Length.ToString());
+                Err("[CutStr] Failing to cutting str.\tbegin=" + begin.ToString() + "\tend=" + end.ToString() + "\tstr.Length=" + str.Length.ToString());
                 return null;
             }
         }
@@ -422,7 +423,7 @@ namespace Nice
                 return false;
             }
 #if LIB
-#if LOG
+  #if LOG
             string parentPath = System.IO.Path.GetDirectoryName(filePath);
             if(!System.IO.Directory.Exists(parentPath)) { // 不存在目录则创建之
                 System.IO.Directory.CreateDirectory(parentPath);
@@ -438,9 +439,9 @@ namespace Nice
             string lostStr = fileStr + time + str + "\r\n";
             System.IO.File.WriteAllText(filePath, lostStr);
             return true;
-#else
+  #else
             return false;
-#endif // LOG
+  #endif // LOG
 #else
             return false;
 #endif // LIB
@@ -448,8 +449,9 @@ namespace Nice
 
         public bool Log(string textStr)
         {
-#if LOG
-            string logPath = g_currentPath + @"\Libcore\log\error.log";
+#if LIB
+  #if LOG
+            string logPath = g_currentPath + @"\Libcore\log\note.log";
             if(textStr == null) {
                 return false;
             }
@@ -457,6 +459,24 @@ namespace Nice
             if(Log(logPath, textStr)) {
                 return true;
             }
+  #endif
+#endif
+            return false;
+        }
+
+        public bool Err(string textStr)
+        {
+#if LIB
+  #if ERR
+            string logPath = g_currentPath + @"\Libcore\log\error.log";
+            if (textStr == null) {
+                return false;
+            }
+
+            if (Log(logPath, textStr)) {
+                return true;
+            }
+  #endif
 #endif
             return false;
         }
@@ -572,6 +592,15 @@ namespace Nice
 
         }
 
+        public bool IsSupportLib()
+        {
+#if LIB
+            return true;
+#else
+            return false;
+#endif
+        }
+
         public bool IsSupportLog()
         {
             if(!IsSupportLib()) {
@@ -584,13 +613,15 @@ namespace Nice
 #endif
         }
 
-        public bool IsSupportLib()
+        public bool IsSupportErr()
         {
-#if LIB
+#if ERR
             return true;
 #else
             return false;
 #endif
         }
+
+
     }
 }
