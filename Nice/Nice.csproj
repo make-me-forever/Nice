@@ -118,6 +118,7 @@
   <ItemGroup>
     <Content Include="KunYi_icon0.ico" />
     <Content Include="Nice.ico" />
+    <None Include="Resources\logo_kingst.png" />
     <EmbeddedResource Include="Resources\logo_moive.png" />
   </ItemGroup>
   <ItemGroup>
