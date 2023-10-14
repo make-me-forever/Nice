@@ -23,6 +23,15 @@ namespace Nice
         int g_totalLineNum = 0;
         /***************************************************************/
 
+        private void ReleaseGlobleVariable()
+        {
+            g_dirPath = null;
+            g_fileName = null;
+            g_backupFilePath = null;
+            g_newFilePath = null;
+            g_totalLineNum = 0;
+        }
+
 
         public void TransformFuncToCfg(string srcFilePath)
         {
@@ -39,7 +48,9 @@ namespace Nice
 
         public bool TransformToCfg()
         {
-            CreatBackupFile();
+            if(!CreatBackupFile()) {
+                return false;
+            }
             if(!NewFile()) {
                 System.IO.File.Delete(g_backupFilePath);
                 return false;
@@ -68,10 +79,18 @@ namespace Nice
 
         public bool NewFile()
         {
+            if(!System.IO.File.Exists(g_backupFilePath)) {
+                return false;
+            }
             String format = " yyyy-MM-dd_hhmmssffff";
             DateTime date = DateTime.Now;
             string time = date.ToString(format, DateTimeFormatInfo.InvariantInfo);
-            g_newFilePath = g_dirPath + @"\" + "i2c_" + System.IO.Path.GetFileNameWithoutExtension(g_fileName) + time + ".ini";
+            string newFileName = System.IO.Path.GetFileNameWithoutExtension(g_backupFilePath);
+            if(!newFileName.Contains(" ")) {
+                g_newFilePath = g_dirPath + @"\" + newFileName + " " + time + ".ini";
+            } else {
+                g_newFilePath = g_dirPath + @"\" + newFileName.Substring(0, newFileName.IndexOf(" ")) + time + ".ini";
+            }
             if(!System.IO.File.Exists(g_newFilePath)) {
                 System.IO.File.Create(g_newFilePath).Close();
             } else {
@@ -152,9 +171,10 @@ namespace Nice
 
         private bool CheckPath(string srcFilePath)
         {
-            if (srcFilePath == null || srcFilePath == "") {
+            if(srcFilePath == null || srcFilePath == "" ||
+                (!System.IO.File.Exists(srcFilePath))) {
                 g_f.Err("[CheckPath] err:文件路径检测fail");
-                MessageBox.Show("err:文件路径检测fail", "CheckPath");
+                MessageBox.Show("[err]文件路径错误", "CheckPath");
                 return false;
             }
             int totalSize = Encoding.Default.GetByteCount("srcFilePath");
@@ -169,25 +189,27 @@ namespace Nice
             }
         }
 
-        private void ReleaseGlobleVariable()
+        private bool CreatBackupFile()
         {
-            g_dirPath = null;
-            g_fileName = null;
-            g_backupFilePath = null;
-            g_totalLineNum = 0;
-        }
-
-        private void CreatBackupFile()
-        {
+            if(!System.IO.File.Exists(g_dirPath + @"\" + g_fileName) && !System.IO.Directory.Exists(g_fileName)) {
+                g_f.Err("[CreatBackupFile] no feile:" + g_dirPath + @"\" + g_fileName);
+                return false;
+            }
             String format = " yyyy-MM-dd_hhmmssffff";
             DateTime date = DateTime.Now;
             string time = date.ToString(format, DateTimeFormatInfo.InvariantInfo);
-            g_backupFilePath = g_dirPath + @"\" + System.IO.Path.GetFileNameWithoutExtension(g_fileName) + time + ".ini";
+            string newFileName = System.IO.Path.GetFileNameWithoutExtension(g_fileName);
+            if(!newFileName.Contains(" ")){
+                g_backupFilePath = g_dirPath + @"\" + newFileName + " " + time + ".ini";
+            } else {
+                g_backupFilePath = g_dirPath + @"\" + newFileName.Substring(0, newFileName.IndexOf(" ")) + time + ".ini";
+            }
             if (!System.IO.File.Exists(g_backupFilePath)) {
                 System.IO.File.Copy(g_dirPath + @"\" + g_fileName, g_backupFilePath, true);
             } else {
                 System.IO.File.Copy(g_dirPath + @"\" + g_fileName, g_backupFilePath, true);
             }
+            return true;
         }
 
         private void TransformToVio4()

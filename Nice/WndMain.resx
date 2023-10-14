@@ -199,6 +199,27 @@
         NmN0cJCfPdZQPpcB4wyUEU4+ATYb/RM3TchHEPKcSKX+H2sXfwZppUkFAAAAAElFTkSuQmCC
 </value>
   </data>
+  <data name="KingstButton.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        xAAADsQBlSsOGwAAAB10RVh0U29mdHdhcmUAQUNEIFN5c3RlbXMgyv3C67PJz/GAdMFKAAAAB3RJTUUH
+        4AMXEBMe1zh7VQAAAylJREFUWEftlH0s1HEcx69WkbDIoiyuXKZFtJ6f1KUjW9GiuAthWlkmadbDmopY
+        JVIzhVqbaDLLEn+RtnCtcmo9yTAP80clMy2XWPfu9/v43UPtWscvmz9+r+127+/n+7DXfT/fnQiTHEGQ
+        L4IgXwRBvgiCfBEE+cJLUKPRcGniGJfgU6USbW2t3GhiMSqYcvYcvDesg8xHipaWZhQXFcFVIkZy8mma
+        F4lEWOnlTvl/YNiJP7vy1xtkJe6VFFPeHxEGZUM9ZZba2ho0Pn/BjYxjavu16/z9/OAv86VsiFHB+ron
+        JDg0pEba+VRGroGbAU6fPIW0lDOUOzs6kXj0CN6+foU3zCcyTIHWlg80x8LuCwsNRVlpCQoK8rkqkJ93
+        HUfi45CXm0vjmuoaOMyxYSS3ocHgIliMCmZnZmI6I5h58QJOHk/iqsDQ8A9UVT4k+Z6ebnzu7YXP5k2w
+        tZqJysoKzLOzgWJvMK3V/kiW2EMHdPlqVhacHO0pa2udnR2U794pRH9/P9W0GBWU7w3Cco8l2MK8Q+tZ
+        Zlx1lMePqnUHs2zb4g35niDKc2dbIuVMMuUliyVQhI7KhstDsHHNasonkhJp/+VLF2nM8rKpkWpqtZqr
+        6DEq6DzfHgdjotHd1UUbb93UtyeJaalEvIAbAWbTpiAnO4syu1ZZX6fLGRfSKS9eKEZCXCxllujICJqX
+        bZXSOOfaFeqYMfRVg0dNUvk3KC91dcGMqfplq7yWIXxfKOXvg2paq1I9Q5NKRZk5iObYnBB/WJcLC2/r
+        Mkt6eiqcHR0oK0L2wNPdjfJPzU/61vKb9vDICKIiwpl2rEHgzp1Uq3hQjhWeHggJHm1jVsYlWFtY4CHz
+        Fpvfv4OL2Akjw8PMjAZL3Vyx3VdG66qYN2lrbYljCfEk1d7eRnWZVIrdgQHYuH4ts7+Zag/K78PK3Bwx
+        0VE0NuQ3wX9h6l/HwNcB7ArYQbm8rBR2s60oG+PPM03+H2T51+a/0df3hW4tTK6AZOEi9H76yM2MYuo5
+        LGO6wbEy+O0bl8bPhAr+DwRBvgiCfBEE+SII8kUQ5IsgyBdBkC+TXBD4BTPYyo7bAKULAAAAAElFTkSu
+        QmCC
+</value>
+  </data>
   <metadata name="$this.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>

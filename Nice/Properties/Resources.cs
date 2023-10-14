@@ -75,5 +75,6 @@ namespace Nice.Properties {
                 return ((System.Drawing.Icon)(obj));
             }
         }
+
     }
 }

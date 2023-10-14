@@ -20,8 +20,8 @@ namespace Nice
         string g_openFolderPath = null;
         string g_tipsPathEditArea = @"请输入文件路径,如：E:\config.txt";
         string g_dropStr = null;
+        string g_version = "V0.04";
         /***************************************************************/
-
 
         public MainPage()
         {
@@ -33,6 +33,7 @@ namespace Nice
             InitOwner();
             InitLog();
             InitStr();
+            InitVersion();
             InitializeComponent(); // WinForm模版
             InitImage();
         }
@@ -48,6 +49,11 @@ namespace Nice
             if(InitOwner()) {
                 MessageBox.Show(str, tittle);
             }
+        }
+
+        void InitVersion()
+        {
+            g_f.Log(g_version);
         }
 
         void Show(string str)
@@ -115,10 +121,10 @@ namespace Nice
         void InitImage()
         {
             InitImageHome();
-            g_f.CreateShortcutOnDesktop("昆易工具"); // 创建快捷方式必须在InitializeComponent();完成后
+            //g_f.CreateShortcutOnDesktop("昆易工具"); // 创建快捷方式必须在InitializeComponent();完成后
         }
 
-        private void Start_Click(object sender, EventArgs e)
+        private void Exit_Click(object sender, EventArgs e)
         {
             //this.Hide();
             this.Close();
@@ -207,7 +213,7 @@ namespace Nice
             }
         }
 
-        private void kingst_click(object sender, System.Windows.Forms.MouseEventArgs e)
+        private void kingst_click(object sender, EventArgs e)
         {
             g_f.Log("[TransformStart] " + PathEditArea.Text);
             TransformFunc g_t = new TransformFunc();
