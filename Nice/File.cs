@@ -4,6 +4,7 @@
 //#define LIB
 //#define LOG
 //#define ERR
+//#define DEBUG
 
 
 /***************************************************************/
@@ -480,6 +481,24 @@ namespace Nice
 #endif
             return false;
         }
+
+        public bool Debug(string textStr)
+        {
+#if LIB
+#if DEBUG
+            string logPath = g_currentPath + @"\Libcore\log\debug.log";
+            if(textStr == null) {
+                return false;
+            }
+
+            if(Log(logPath, textStr)) {
+                return true;
+            }
+#endif
+#endif
+            return false;
+        }
+
 
         public string Replace(string srcFilePath, string desFilePath)
         {

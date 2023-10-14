@@ -17,10 +17,111 @@ namespace Nice
         string g_dirPath = null;
         string g_fileName = null;
         string g_backupFilePath = null;
+        string g_newFilePath = null;
         string g_signBypass = @"CONFIGDATA[].WORDS.";
         //string g_signVio4 = @"REG=";
         int g_totalLineNum = 0;
         /***************************************************************/
+
+
+        public void TransformFuncToCfg(string srcFilePath)
+        {
+            if(!CheckPath(srcFilePath)) {
+                g_f.Log("[TransformFuncEntry] check path err");
+                return;
+            }
+            if(!TransformToCfg()) {
+                g_f.Log("[TransformFuncEntry] transform err");
+                return;
+            }
+            ReleaseGlobleVariable();
+        }
+
+        public bool TransformToCfg()
+        {
+            CreatBackupFile();
+            if(!NewFile()) {
+                System.IO.File.Delete(g_backupFilePath);
+                return false;
+            }
+            int maxLine = g_f.getMaxLine(g_backupFilePath);
+            int crrLine = 1;
+            //for(int num = 1; num <= 196; num++, crrLine++) {
+            for(int num = 1; num <= maxLine; num++, crrLine++) {
+                string crrLineStr = g_f.getLine(g_backupFilePath, num);
+                if(!crrLineStr.Contains(@"W")) {
+                    continue;
+                } else {
+                    if(!Regex.IsMatch(crrLineStr, "^(.*)0x(.*)0x(.*)0x(.*)0x(.*)", RegexOptions.IgnoreCase)) {
+                        //g_f.Debug("[TransformToCfg] line=" + num + " no i2c write : ." + crrLineStr);
+                        continue;
+                    } else {
+                        //g_f.Debug("[TransformToCfg] line=" + num + " is i2c write : " + crrLineStr);
+                        KingstToCfg(crrLine, crrLineStr);
+                    }
+                }
+            }
+
+            System.IO.File.Delete(g_backupFilePath);
+            return true;
+        }
+
+        public bool NewFile()
+        {
+            String format = " yyyy-MM-dd_hhmmssffff";
+            DateTime date = DateTime.Now;
+            string time = date.ToString(format, DateTimeFormatInfo.InvariantInfo);
+            g_newFilePath = g_dirPath + @"\" + "i2c_" + System.IO.Path.GetFileNameWithoutExtension(g_fileName) + time + ".ini";
+            if(!System.IO.File.Exists(g_newFilePath)) {
+                System.IO.File.Create(g_newFilePath).Close();
+            } else {
+                return false;
+            }
+            return true;
+        }
+
+        public int KingstToCfg(int crrLine, string srcStr)
+        {
+            srcStr = srcStr.Replace(" ", "");
+            srcStr = srcStr.Replace("\t", "");
+            string str = null;
+            string i2cId = srcStr.Substring(0, srcStr.IndexOf(",W"));
+            i2cId = i2cId.Substring(i2cId.LastIndexOf(',') + 1);
+            i2cId = "REG=" + i2cId;
+            string offsetAddr = srcStr.Substring(srcStr.LastIndexOf(',') + 1);
+            string offsetHight = offsetAddr.Substring(0, offsetAddr.IndexOf("0x", 2));
+            string offsetLow = offsetAddr.Substring(offsetAddr.IndexOf("0x", 2), offsetAddr.IndexOf("0x", 3));
+            offsetLow = offsetLow.Substring(2);
+            offsetAddr = offsetHight + offsetLow;
+            int addr = (int)Convert.ToInt32(offsetAddr, 16);
+            string dataStr = srcStr.Substring(srcStr.LastIndexOf(',') + 1);
+            dataStr = dataStr.Substring(dataStr.IndexOf("0x", 7));
+
+            for(; dataStr.Contains("0x"); ) {
+                string data = dataStr.Substring(0, 4);
+
+                str = i2cId + "," + offsetAddr + "," + data;
+                g_f.Debug(str);
+                System.IO.File.AppendAllText(g_newFilePath, str + "\r\n");
+                addr++;
+                crrLine++;
+                offsetAddr = "0x" + addr.ToString("X4");
+                dataStr = dataStr.Substring(4);
+                g_f.Debug("[KingstToCfg] line=" + crrLine + "  offsetAddr=" + offsetAddr + "\tdataStr=" + dataStr);
+            }
+
+            return crrLine;
+        }
+
+
+
+
+
+
+
+
+
+
 
         enum cfg_type {
             VIO4,

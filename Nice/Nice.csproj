@@ -90,6 +90,11 @@
     <Compile Include="Feature.cs" />
     <Compile Include="File.cs" />
     <Compile Include="Properties\Resources.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="TransformFunc.cs" />
     <Compile Include="WndMain.cs">
       <SubType>Form</SubType>
@@ -98,6 +103,11 @@
       <DependentUpon>WndMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <DependentUpon>Resources.cs</DependentUpon>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="WndMain.resx">
       <DependentUpon>WndMain.cs</DependentUpon>
       <SubType>Designer</SubType>
