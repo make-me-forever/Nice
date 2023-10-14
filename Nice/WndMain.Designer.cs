@@ -33,6 +33,7 @@
             this.StartButton = new System.Windows.Forms.Button();
             this.LogButton = new System.Windows.Forms.Button();
             this.MenuTransform = new System.Windows.Forms.Button();
+            this.kingst = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // PathEditArea
@@ -103,6 +104,16 @@
             this.MenuTransform.UseVisualStyleBackColor = false;
             this.MenuTransform.Click += new System.EventHandler(this.Transform_Click);
             // 
+            // kingst
+            // 
+            this.kingst.Location = new System.Drawing.Point(275, 114);
+            this.kingst.Name = "kingst";
+            this.kingst.Size = new System.Drawing.Size(57, 41);
+            this.kingst.TabIndex = 16;
+            this.kingst.Text = "kingst";
+            this.kingst.UseVisualStyleBackColor = true;
+            this.kingst.MouseClick += new System.Windows.Forms.MouseEventHandler(this.kingst_click);
+            // 
             // MainPage
             // 
             this.AllowDrop = true;
@@ -112,7 +123,9 @@
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.CancelButton = this.StartButton;
             this.ClientSize = new System.Drawing.Size(463, 307);
+            this.Controls.Add(this.kingst);
             this.Controls.Add(this.MenuTransform);
             this.Controls.Add(this.LogButton);
             this.Controls.Add(this.StartButton);
@@ -121,11 +134,12 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.HelpButton = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.MaximizeBox = false;
             this.Name = "MainPage";
             this.Opacity = 0.95D;
-            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "昆易工具";
             this.TransparencyKey = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
@@ -142,6 +156,7 @@
         private System.Windows.Forms.Button StartButton;
         private System.Windows.Forms.Button LogButton;
         private System.Windows.Forms.Button MenuTransform;
+        private System.Windows.Forms.Button kingst;
     }
 }
 

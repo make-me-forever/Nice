@@ -184,7 +184,7 @@ namespace Nice
                 this.PathEditArea.Text = g_dropStr;
                 //g_f.Log("g_dropStr:" + g_dropStr);
             }
-            TransformStart();
+            //TransformStart();
             //PathEditArea.Text = g_tipsPathEditArea; // 初始化主页路径输入提示语
         }
 
@@ -200,11 +200,18 @@ namespace Nice
 
         private void MainPage_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop)) {
+            if(e.Data.GetDataPresent(DataFormats.FileDrop)) {
                 e.Effect = DragDropEffects.Link;
             } else {
                 e.Effect = DragDropEffects.None;
             }
+        }
+
+        private void kingst_click(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            g_f.Log("[TransformStart] " + PathEditArea.Text);
+            TransformFunc g_t = new TransformFunc();
+            g_t.TransformFuncToCfg(PathEditArea.Text);
         }
     }
 }

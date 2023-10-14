@@ -53,3 +53,13 @@ E:\Code\github\Nice_KunYi\Nice\Nice\bin\Debug\Nice.pdb
 E:\Code\github\Nice_KunYi\Nice\Nice\obj\x86\Debug\Nice.csprojResolveAssemblyReference.cache
 E:\Code\github\Nice_KunYi\Nice\Nice\obj\x86\Debug\Nice.MainPage.resources
 E:\Code\github\Nice_KunYi\Nice\Nice\obj\x86\Debug\Nice.csproj.GenerateResource.Cache
+D:\code\git_code\C#\Nice\Nice\bin\Debug\Nice.exe.config
+D:\code\git_code\C#\Nice\Nice\obj\x86\Debug\Interop.IWshRuntimeLibrary.dll
+D:\code\git_code\C#\Nice\Nice\obj\x86\Debug\Nice.csproj.ResolveComReference.cache
+D:\code\git_code\C#\Nice\Nice\obj\x86\Debug\Nice.exe
+D:\code\git_code\C#\Nice\Nice\obj\x86\Debug\Nice.pdb
+D:\code\git_code\C#\Nice\Nice\obj\x86\Debug\Nice.MainPage.resources
+D:\code\git_code\C#\Nice\Nice\obj\x86\Debug\Nice.csproj.GenerateResource.Cache
+D:\code\git_code\C#\Nice\Nice\bin\Debug\Nice.exe
+D:\code\git_code\C#\Nice\Nice\bin\Debug\Nice.pdb
+D:\code\git_code\C#\Nice\Nice\obj\x86\Debug\Nice.Properties.Resources.resources
