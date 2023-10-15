@@ -28,12 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainPage));
             this.PathEditArea = new System.Windows.Forms.RichTextBox();
             this.ExitButton = new System.Windows.Forms.Button();
             this.LogButton = new System.Windows.Forms.Button();
             this.MenuTransform = new System.Windows.Forms.Button();
             this.KingstButton = new System.Windows.Forms.Button();
+            this.KingstBar = new System.Windows.Forms.ProgressBar();
+            this.TimerProgressBar = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // PathEditArea
@@ -77,6 +80,7 @@
             // 
             this.LogButton.BackColor = System.Drawing.Color.DeepSkyBlue;
             this.LogButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.LogButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.LogButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold);
             this.LogButton.ForeColor = System.Drawing.SystemColors.ControlText;
             this.LogButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
@@ -110,6 +114,7 @@
             this.KingstButton.BackColor = System.Drawing.Color.Honeydew;
             this.KingstButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("KingstButton.BackgroundImage")));
             this.KingstButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.KingstButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.KingstButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold);
             this.KingstButton.ForeColor = System.Drawing.SystemColors.ControlText;
             this.KingstButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
@@ -121,23 +126,43 @@
             this.KingstButton.UseVisualStyleBackColor = false;
             this.KingstButton.Click += new System.EventHandler(this.kingst_click);
             // 
+            // KingstBar
+            // 
+            this.KingstBar.BackColor = System.Drawing.Color.Turquoise;
+            this.KingstBar.ForeColor = System.Drawing.Color.OrangeRed;
+            this.KingstBar.Location = new System.Drawing.Point(0, 303);
+            this.KingstBar.Margin = new System.Windows.Forms.Padding(0);
+            this.KingstBar.Name = "KingstBar";
+            this.KingstBar.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.KingstBar.Size = new System.Drawing.Size(463, 4);
+            this.KingstBar.Step = 1;
+            this.KingstBar.TabIndex = 18;
+            this.KingstBar.Visible = false;
+            // 
+            // TimerProgressBar
+            // 
+            this.TimerProgressBar.Tick += new System.EventHandler(this.TimerProgressBar_Tick);
+            // 
             // MainPage
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoSize = true;
+            this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.CancelButton = this.ExitButton;
             this.ClientSize = new System.Drawing.Size(463, 307);
+            this.Controls.Add(this.KingstBar);
             this.Controls.Add(this.KingstButton);
             this.Controls.Add(this.MenuTransform);
             this.Controls.Add(this.LogButton);
             this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.PathEditArea);
             this.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.HelpButton = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -163,6 +188,8 @@
         private System.Windows.Forms.Button LogButton;
         private System.Windows.Forms.Button MenuTransform;
         private System.Windows.Forms.Button KingstButton;
+        private System.Windows.Forms.ProgressBar KingstBar;
+        private System.Windows.Forms.Timer TimerProgressBar;
     }
 }
 

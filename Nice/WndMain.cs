@@ -5,6 +5,8 @@ using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 using Nice.Properties;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Nice
 {
@@ -12,7 +14,7 @@ namespace Nice
     {
         /***************************************************************/
         // 全局变量区
-
+        
         File g_f = new File();
         Feature g_e = new Feature();
 
@@ -21,6 +23,10 @@ namespace Nice
         string g_tipsPathEditArea = @"请输入文件路径,如：E:\config.txt";
         string g_dropStr = null;
         string g_version = "V0.04";
+        string g_defaultPath = null;
+
+        int g_value = 0;
+        static Thread thread_a;
         /***************************************************************/
 
         public MainPage()
@@ -215,9 +221,69 @@ namespace Nice
 
         private void kingst_click(object sender, EventArgs e)
         {
-            g_f.Log("[TransformStart] " + PathEditArea.Text);
-            TransformFunc g_t = new TransformFunc();
-            g_t.TransformFuncToCfg(PathEditArea.Text);
+            g_f.Log("[kingst_click] " + PathEditArea.Text);
+            g_defaultPath = PathEditArea.Text;
+
+            thread_a = new Thread(ThreadHandle);
+            thread_a.Name = "kingst_progress_bar";
+            thread_a.Start();
+            TimerProgressBar.Enabled = true;
+            
+
+            //TransformFunc g_t = new TransformFunc();
+            //g_t.TransformFuncToCfg(PathEditArea.Text);
+            this.KingstBar.Visible = true;
+            KingstBar.Value = 0;
+            
         }
+
+        public void kingst_progress_bar(int value)
+        {
+            //g_value = value;
+            //KingstBar.Value++;
+            //Console.Write("king_progress_bar\t");
+            //thread_a.Resume();
+        }
+
+        public void UpdateValue(int value)
+        {
+            //g_value = value;
+            //KingstBar.Value = g_value;
+        }
+
+        private void ThreadHandle()
+        {
+            while(true) {
+                Thread.Sleep(100);
+                Console.Write("TreadHandle\t");
+                //this.KingstBar.Visible = true;
+                TransformFunc g_t = new TransformFunc();
+                g_t.TransformFuncToCfg(g_defaultPath);
+                //g_value = KingstBar.Value;
+                thread_a.Suspend();
+            }
+        }
+
+        public void ThreadSuspend(bool isSuspend)
+        {
+            if(isSuspend) {
+                thread_a.Suspend();
+            } else {
+                thread_a.Resume();
+            }
+        }
+
+        private void TimerProgressBar_Tick(object sender, EventArgs e)
+        {
+
+            if(KingstBar.Value < KingstBar.Maximum) {
+                KingstBar.Value = g_value;
+                g_value += 2;
+            } else {
+                TimerProgressBar.Enabled = false;
+                g_value = 0;
+            }
+        }
+
     }
 }

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <asmv1:assemblyIdentity name="Nice.exe" version="1.0.0.2" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="x86" type="win32" />
+  <asmv1:assemblyIdentity name="Nice.exe" version="1.0.0.1" publicKeyToken="3f2ce8e219f1194b" language="neutral" processorArchitecture="x86" type="win32" />
   <description asmv2:iconFile="KunYi_icon0.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
@@ -94,14 +94,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Nice.exe" size="515072">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Nice.exe" size="515584">
       <assemblyIdentity name="Nice" version="0.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>dXbf+prxtJHWHFp/tXWxDhSzQGVNE+UMXZjgYYvSS3o=</dsig:DigestValue>
+        <dsig:DigestValue>8SRK2qqlehoI5t99RRzxjPXT93xmPPZB9NP3dBxpqSg=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -143,4 +143,4 @@
       </windowsSetting>
     </application>
   </compatibility>
-</asmv1:assembly>
+<publisherIdentity name="CN=小骆\ASUS" issuerKeyHash="a34654ebc0b83be69d50a57fb91a82ddb5fec82d" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" /><DigestValue>1ODPN33qkVjMOqVkw2SaOtsDpvI=</DigestValue></Reference></SignedInfo><SignatureValue>IhHldQJr2ORCCLMNC9X20uWbUeXVtM2a9IW923mQ64qgS04jCmE4XBbwV/fBLNcFgxo7KcBe+/17En6LZeEAAnM6oO3GZoYJ1MYu06x5lj3kK9zVRw/vOohz2f5Aa8sWilVmf1nzU6/bLTMB1fU8EmRfZOo5LOfNK1I338cuST4=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>rqByZaI41m/Q3oxSvnGPvAXBWOL0QZ+eXX08MxOozPiYWC+PUukGP9iWr0qyFKDXrswiQaJd9PhHOjV1B642zJOy9XBVt7WpKM3UbbI8Z7acSzgB8z7B/ZcIixn52c5Y1LhsgZsDLUhULMD4/9mefnwPuaUZ7wPHLnBOHuSwQ1k=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="f2a603db3a9a64c364a53acc5891ea7d37cfe0d4" Description="" Url=""><as:assemblyIdentity name="Nice.exe" version="1.0.0.1" publicKeyToken="3f2ce8e219f1194b" language="neutral" processorArchitecture="x86" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=小骆\ASUS</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" /><DigestValue>knz1XKAJYFKuQbqgiEiahEFJQpQ=</DigestValue></Reference></SignedInfo><SignatureValue>rDvFt9YcWwQgyZ1GBo96A6Q5/gzObs+63e78MrUhMT1Cj5yduMJQ8Mc3LKd1OwnIjHpCbXh8+lYKMClkczdAlQ1AGICNqI18oZVNWjWc/dgbwsKGMh0IeVnPD/tMbT3ha4Wu71ttoXMBtBE3G6L/ElYYyqBVbamn/8h+r+wnYV8=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>rqByZaI41m/Q3oxSvnGPvAXBWOL0QZ+eXX08MxOozPiYWC+PUukGP9iWr0qyFKDXrswiQaJd9PhHOjV1B642zJOy9XBVt7WpKM3UbbI8Z7acSzgB8z7B/ZcIixn52c5Y1LhsgZsDLUhULMD4/9mefnwPuaUZ7wPHLnBOHuSwQ1k=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIBtTCCAR6gAwIBAgIQF+qzRP+Dk5FC5bS4s/q1fzANBgkqhkiG9w0BAQUFADAZMRcwFQYDVQQDHg5cD5qGAFwAQQBTAFUAUzAeFw0yMzEwMTUxNDMyMzRaFw0yNDEwMTQyMDMyMzRaMBkxFzAVBgNVBAMeDlwPmoYAXABBAFMAVQBTMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCuoHJlojjWb9DejFK+cY+8BcFY4vRBn55dfTwzE6jM+JhYL49S6QY/2JavSrIUoNeuzCJBol30+Ec6NXUHrjbMk7L1cFW3takozdRtsjxntpxLOAHzPsH9lwiLGfnZzljUuGyBmwMtSFQswPj/2Z5+fA+5pRnvA8cucE4e5LBDWQIDAQABMA0GCSqGSIb3DQEBBQUAA4GBADvNKjisdp5XXm68uedNO8B5uB/rp2T923k0pwVJbTGYcePuWdOMg4NYwL178DDlv430UF0wrYYqkussIpiqUTRoqn1nlgUWxHy5BHJRXosn3s8AT2BcN0NfFIsWgZFMebhzMHK+/gfzawjtlWkOObDniA+SsN2aJXb8HtIdoGAk</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>
