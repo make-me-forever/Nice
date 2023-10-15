@@ -7,6 +7,7 @@ using System.Diagnostics.SymbolStore;
 using System.Globalization;
 using System.Data;
 using System.Windows.Markup;
+using System.Threading;
 
 namespace Nice
 {
@@ -14,6 +15,7 @@ namespace Nice
     {
         /***************************************************************/
         File g_f = new File();
+        MainPage g_m = new MainPage();
         string g_dirPath = null;
         string g_fileName = null;
         string g_backupFilePath = null;
@@ -21,6 +23,7 @@ namespace Nice
         string g_signBypass = @"CONFIGDATA[].WORDS.";
         //string g_signVio4 = @"REG=";
         int g_totalLineNum = 0;
+        int g_value = 0;
         /***************************************************************/
 
         private void ReleaseGlobleVariable()
@@ -57,7 +60,6 @@ namespace Nice
             }
             int maxLine = g_f.getMaxLine(g_backupFilePath);
             int crrLine = 1;
-            //for(int num = 1; num <= 196; num++, crrLine++) {
             for(int num = 1; num <= maxLine; num++, crrLine++) {
                 string crrLineStr = g_f.getLine(g_backupFilePath, num);
                 if(!crrLineStr.Contains(@"W")) {
@@ -69,11 +71,13 @@ namespace Nice
                     } else {
                         //g_f.Debug("[TransformToCfg] line=" + num + " is i2c write : " + crrLineStr);
                         KingstToCfg(crrLine, crrLineStr);
+                        //UpdateProgressBar(num, maxLine);
                     }
                 }
             }
 
             System.IO.File.Delete(g_backupFilePath);
+            //UpdateProgressBar(maxLine, maxLine);
             return true;
         }
 
@@ -120,17 +124,29 @@ namespace Nice
                 string data = dataStr.Substring(0, 4);
 
                 str = i2cId + "," + offsetAddr + "," + data;
-                g_f.Debug(str);
+                //g_f.Debug(str);
                 System.IO.File.AppendAllText(g_newFilePath, str + "\r\n");
                 addr++;
                 crrLine++;
                 offsetAddr = "0x" + addr.ToString("X4");
                 dataStr = dataStr.Substring(4);
-                g_f.Debug("[KingstToCfg] line=" + crrLine + "  offsetAddr=" + offsetAddr + "\tdataStr=" + dataStr);
+                //g_f.Debug("[KingstToCfg] line=" + crrLine + "  offsetAddr=" + offsetAddr + "\tdataStr=" + dataStr);
             }
 
             return crrLine;
         }
+
+        //public void UpdateProgressBar(int num, int total)
+        //{
+        //    int value = 10 * num / total;
+        //    if(g_value != value) {
+        //        g_value = value;
+        //        g_m.UpdateValue(value);
+        //        //g_m.kingst_progress_bar(g_value);
+        //        //Thread.Sleep(1);
+        //        //g_m.ThreadSuspend(true);
+        //    }
+        //}
 
 
 

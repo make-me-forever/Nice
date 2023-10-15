@@ -31,7 +31,7 @@ namespace Nice
             DateTime date = DateTime.Now;
             // 获取日志初时间 lastTime
             string lastTime = g_f.CutTime(g_f.getLine(g_f.g_logPath, 1));
-            if (g_f.getLine(g_f.g_logPath, 1).Length < 10 || lastTime == null) {
+            if (g_f.getLine(g_f.g_logPath, 1).Length < 10 && lastTime != null) {
                 if(g_f.getLine(g_f.g_logPath, 1) != "") {
                     g_f.Replace(g_f.g_logPath, g_f.g_logPath, System.IO.File.ReadAllText(g_f.g_logPath), "");
                     g_f.Log(g_f.g_logPath, "日志已自动清理");
@@ -40,7 +40,7 @@ namespace Nice
             }
             // 获取日志末时间 currTime
             string currTime = date.ToString(format, DateTimeFormatInfo.InvariantInfo);
-            System.Windows.Forms.MessageBox.Show("1:" + g_f.getMaxLine(@"E:\Code\windows\Game\Nice\bin\Debug\Libcore\log\error.log"));
+            //System.Windows.Forms.MessageBox.Show("1:" + g_f.getMaxLine(@"E:\Code\windows\Game\Nice\bin\Debug\Libcore\log\error.log"));
             int total = g_f.DaysDifference(lastTime, currTime); // 获取日志最大时间差
             if (total >= days) {
                 bool isInit = g_f.Replace(g_f.g_logPath, g_f.g_logPath, System.IO.File.ReadAllText(g_f.g_logPath), "");
